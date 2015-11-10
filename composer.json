@@ -1,0 +1,12 @@
+{
+    "name": "alan/www",
+    "require": {
+        "fzaninotto/faker": "^1.5"
+    },
+    "authors": [
+        {
+            "name": "alanpilloud",
+            "email": "alanp@rc2.ch"
+        }
+    ]
+}
