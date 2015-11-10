@@ -28,6 +28,11 @@ composer install
 All you have to do is editing the file config.php to suit your needs and browse
 the wp-faker folder.
 
+### Flex content fields
+
+To use flex content fields, you can't use the system name of the field. You will need
+to use the field_key (you know, this kind of key : field_5641e6b5d1167)
+
 ## Don't use it on your production server
 
 This tool is meant to be used only for development, don't let anybody pollute your
@@ -35,6 +40,5 @@ website !
 
 ## Todo
 WP-Faker is still under developement and here is what I will have to do :
- - Supporting repeater fields
- - Supporting flex fields
+ - Pre-generate the $value array regarding the actual Acf config.
  - Being more userproof

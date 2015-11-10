@@ -14,7 +14,7 @@ define('POST_CONTENT',$faker->realText()); // What's the post title you're gonna
  *  Acf values can be listed here.
  *  
  *  The key is the name of the field.
- *  For the moment, repeaters and flex contents are not supported
+ *  To use flex fields, use the field_key (you know, that field_5641e6b5d1167 kind of key)
  */
 /*$values = array(
     'lastname' => $faker->lastname(),
