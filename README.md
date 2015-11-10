@@ -20,9 +20,15 @@ Just clone the project at the root of your wordpress install and install Faker
 with composer :
 ```
 git clone https://github.com/alanpilloud/wp-faker.git
+cd wp-faker
 composer install
 ```
 ## Usage
 
 All you have to do is editing the file config.php to suit your needs and browse
 the wp-faker folder.
+
+## Don't use it on your production server
+
+This tool is meant to be used only for development, don't let anybody pollute your
+website !
