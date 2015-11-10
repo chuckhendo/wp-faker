@@ -5,7 +5,7 @@ require __DIR__. '/../wp-load.php';
 
 $faking_content_url = basename($_SERVER['PHP_SELF']);
 
-if($_GET['proceed'] == 1) {
+if(filter_input(INPUT_GET, 'proceed') == 1) {
     /**
      *  Generating content !
      */
@@ -28,7 +28,7 @@ if($_GET['proceed'] == 1) {
         }
     }
     
-    $content .= '
+    $content = '
     <h3>Content created with success!</h3>
     <p>The content <a href="'.get_permalink($post_id).'" target="_blank">"'.POST_TITLE.'"</a> with id '.$post_id.' has been created!</p>';
     
@@ -47,8 +47,8 @@ if($_GET['proceed'] == 1) {
     <ul>
         <li>Post type : '.POST_TYPE.'</li>
         <li>Post author id : '.POST_AUTHOR.'</li>
-        <li>Post content : '.POST_CONTENT.'</li>
-        <li>Dummy Acf values example : <br/><pre>'.print_r($values,1).'</pre></li>
+        <li>Post content : '.POST_CONTENT.'</li>'.
+        ((isset($values))?'<li>Dummy Acf values example : <br/><pre>'.print_r($values,1).'</pre></li>':'').'
     </ul>';
     
     $button = '<a href="'.$faking_content_url.'?proceed=1" class="btn btn-sm btn-primary">OK, let\'s go!</a>';
