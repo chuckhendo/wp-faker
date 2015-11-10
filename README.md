@@ -32,3 +32,9 @@ the wp-faker folder.
 
 This tool is meant to be used only for development, don't let anybody pollute your
 website !
+
+## Todo
+WP-Faker is still under developement and here is what I will have to do :
+ - Supporting repeater fields
+ - Supporting flex fields
+ - Being more userproof
