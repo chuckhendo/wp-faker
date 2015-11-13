@@ -1,0 +1,10 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <h3>Content created with success!</h3>
+    <p>The content <a href="{{ post.url }}" target="_blank">{{ post.title }}</a> with id {{ post.id }} has been created!</p>
+{% endblock %}
+
+{% block footer %}
+    {{ footer|raw }}
+{% endblock %}

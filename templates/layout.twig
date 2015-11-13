@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Faking content</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container m-y-lg">
+            <div class="col-sm-8 col-sm-offset-2">
+                <div class="card">
+                    <div class="card-block">
+                        {% block content %} {% endblock %}
+                    </div>
+                    <div class="card-footer">
+                        {% block footer %} {% endblock %}
+                    </div>
+                </div>
+                <p><small><a href="https://github.com/fzaninotto/Faker/blob/master/readme.md" target="_blank">Faker docs</a></small></p>
+            </div>
+        </div>
+    </body>
+</html>

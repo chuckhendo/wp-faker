@@ -1,0 +1,14 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <h3>Ready to generate content with this config?</h3>
+    <ul>
+        {% for spec in config %}
+            <li>{{ spec|raw }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block footer %}
+    {{ footer|raw }}
+{% endblock %}
