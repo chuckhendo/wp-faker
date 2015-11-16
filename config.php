@@ -6,7 +6,6 @@
 $faker = Faker\Factory::create('en_GB'); // You can change that value to suit your needs
 
 define('POST_TYPE', 'post'); // What post type would you like to seed ?
-define('POST_AUTHOR', 1); // What's the author id to use ?
 define('POST_TITLE', $faker->name()); // What's the post title you're gonna use ?
 define('POST_CONTENT', $faker->realText()); // What's the post title you're gonna use ?
 define('POST_THUMBNAIL', $faker->image(UPLOAD_DIR,1200,900,'city',false)); // Or you could just find any other image URL
