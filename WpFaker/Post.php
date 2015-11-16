@@ -23,7 +23,8 @@ class Post
             'post_mime_type' => $wp_filetype['type'],
             'post_title' => $filename,
             'post_content' => '',
-            'post_status' => 'inherit'
+            'post_status' => 'inherit',
+            'author' => $this->user_id
         );
         
         $attachement_id = wp_insert_attachment($attachment, UPLOAD_DIR.'/'.$filename);

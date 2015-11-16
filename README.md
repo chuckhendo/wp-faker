@@ -33,6 +33,11 @@ the wp-faker folder.
 To use flex content fields, you can't use the system name of the field. You will need
 to use the field_key (you know, this kind of key : field_5641e6b5d1167)
 
+### Cleaning the website of the dummy content
+
+Wp-Faker adds a user named WpFakerUser. To remove all the dummy content (images too), simply delete
+the user and specify that you don't want to keep its content.
+
 ## Don't use it on your production server
 
 This tool is meant to be used only for development, don't let anybody pollute your
