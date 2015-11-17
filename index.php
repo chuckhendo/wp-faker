@@ -6,7 +6,7 @@ define('UPLOAD_DIR', $upload_dir['path']);
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/WpFaker/Post.php';
 require __DIR__ . '/WpFaker/Config.php';
-require __DIR__ . '/config-projets.php';
+require __DIR__ . '/config-sample.php';
 
 $WpFaker = new Post();
 $Config = new myConfig();
