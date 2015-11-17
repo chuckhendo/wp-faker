@@ -67,4 +67,17 @@ class Post
     		'post_type' => POST_TYPE
     	));
     }
+    
+    public function saveTerms()
+    {
+        $taxonomies = get_object_taxonomies(POST_TYPE);
+        if ($taxonomies) {
+            foreach ($taxonomies as $taxonomy) {
+                $terms = get_terms($taxonomy,'hide_empty=0');
+                if ($terms) {
+                    wp_set_object_terms($this->post_id,$terms[rand(0,(count($terms)-1))]->slug,$taxonomy);
+                }
+            }
+        }
+    }
 }

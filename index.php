@@ -46,6 +46,11 @@ if (filter_input(INPUT_GET, 'proceed') == 1) {
     }
     
     /**
+     *  Add terms in each available taxonomy
+     */
+    $WpFaker->saveTerms();
+    
+    /**
      *  Prepare values for the template
      */
     $data['post'] = [
