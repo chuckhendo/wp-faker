@@ -71,8 +71,8 @@ if (filter_input(INPUT_GET, 'proceed') == 1) {
         'Post content : '.POST_CONTENT
     ];
     
-    if (isset($acf_values)) {
-        $data['config'][] = 'Dummy Acf values example : <br><pre>'.print_r($acf_values,1).'</pre>';
+    if (isset($Config->acf_values)) {
+        $data['config'][] = 'Dummy Acf values example : <br><pre>'.print_r($Config->acf_values,1).'</pre>';
     }
     
     $data['footer'] = '<a href="'.$faking_content_url.'?proceed=1" class="btn btn-sm btn-primary">OK, let\'s go!</a>';
