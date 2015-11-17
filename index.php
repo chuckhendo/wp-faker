@@ -3,11 +3,13 @@ require __DIR__. '/../wp-load.php';
 $upload_dir = wp_upload_dir();
 define('UPLOAD_DIR', $upload_dir['path']);
 
-require __DIR__ . '/WpFaker/Post.php';
-$WpFaker = new Post();
-
 require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/config.php';
+require __DIR__ . '/WpFaker/Post.php';
+require __DIR__ . '/WpFaker/Config.php';
+require __DIR__ . '/config-projets.php';
+
+$WpFaker = new Post();
+$Config = new myConfig();
 
 Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem('templates');
@@ -28,27 +30,27 @@ if (filter_input(INPUT_GET, 'proceed') == 1) {
     /**
      *  Generating content !
      */
-    $WpFaker->createPost();
+    $WpFaker->createPost($Config);
 
     /**
      *  Generating post thumbnail !
      */
-    if(POST_THUMBNAIL) {
-        $attachement_id = $WpFaker->saveImage(POST_THUMBNAIL);
+    if($Config->post_thumbnail) {
+        $attachement_id = $WpFaker->saveImage($Config->post_thumbnail);
         update_post_meta( $WpFaker->post_id, '_thumbnail_id', $attachement_id ); // Associating attachement to the post
     }
     
     /**
      *  Generating Acf values !
      */
-    if(isset($acf_values)) {
-        $WpFaker->saveAcf($acf_values);
+    if(isset($Config->acf_values)) {
+        $WpFaker->saveAcf($Config->acf_values);
     }
     
     /**
-     *  Add terms in each available taxonomy
+     *  Add terms
      */
-    $WpFaker->saveTerms();
+    $WpFaker->saveTerms($Config);        
     
     /**
      *  Prepare values for the template
@@ -56,7 +58,7 @@ if (filter_input(INPUT_GET, 'proceed') == 1) {
     $data['post'] = [
         'id' => $WpFaker->post_id,
         'url' => get_permalink($WpFaker->post_id),
-        'title' => POST_TITLE,
+        'title' => $Config->post_title,
     ];
 
     $data['footer'] = '<a href="'.$faking_content_url.'?proceed=1" class="btn btn-sm btn-primary">Great, one more time!</a> <small>or</small> <a href="'.$faking_content_url.'?proceed=0" class="btn btn-sm btn-secondary">what\'s my config again?</a>';
@@ -67,8 +69,9 @@ if (filter_input(INPUT_GET, 'proceed') == 1) {
      *  Asking to confirm config
      */
     $data['config'] = [
-        'Post type : '.POST_TYPE,
-        'Post content : '.POST_CONTENT
+        'Post type : '.$Config->post_type,
+        'Post title : '.$Config->post_title,
+        'Post content : '.$Config->post_content
     ];
     
     if (isset($Config->acf_values)) {
