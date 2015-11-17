@@ -24,7 +24,7 @@ class Post
             'post_title' => $filename,
             'post_content' => '',
             'post_status' => 'inherit',
-            'author' => $this->user_id
+            'post_author' => $this->user_id
         );
         
         $attachement_id = wp_insert_attachment($attachment, UPLOAD_DIR.'/'.$filename);
@@ -54,23 +54,23 @@ class Post
         $user->add_role( 'administrator' );
     }
     
-    public function createPost()
+    public function createPost($Config)
     {
         $this->post_id = wp_insert_post(array(
     		'comment_status' => 'closed',
     		'ping_status' => 'closed',
     		'post_author' => $this->user_id,
-    		'post_name' => sanitize_title(POST_TITLE),
-    		'post_title' =>	POST_TITLE,
-            'post_content' => POST_CONTENT,
+    		'post_name' => sanitize_title($Config->post_title),
+    		'post_title' =>	$Config->post_title,
+            'post_content' => $Config->post_content,
     		'post_status' => 'publish',
-    		'post_type' => POST_TYPE
+    		'post_type' => $Config->post_type
     	));
     }
     
-    public function saveTerms()
+    public function saveTerms($Config)
     {
-        $taxonomies = get_object_taxonomies(POST_TYPE);
+        $taxonomies = get_object_taxonomies($Config->post_type);
         if ($taxonomies) {
             foreach ($taxonomies as $taxonomy) {
                 $terms = get_terms($taxonomy,'hide_empty=0');
