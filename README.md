@@ -25,7 +25,7 @@ composer install
 ```
 ## Usage
 
-All you have to do is editing the file config.php to suit your needs and browse
+All you have to do is editing the file config-sample.php to suit your needs and browse
 the wp-faker folder.
 
 ### Flex content fields
@@ -46,4 +46,5 @@ website !
 ## Todo
 WP-Faker is still under developement and here is what I will have to do :
  - Pre-generate the $value array regarding the actual Acf config.
- - Being more userproof
+ - Managing multiple config files.
+ - Being more userproof.
