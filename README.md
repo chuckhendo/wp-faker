@@ -28,6 +28,17 @@ composer install
 All you have to do is editing the file config-sample.php to suit your needs and browse
 the wp-faker folder.
 
+### Multiple configurations
+
+If you need to run more than one configuration, make a new config file at the root
+of your WP-Faker installation. It must be named after this pattern :
+```
+config-***name***.php
+```
+
+Then copy paste the content of config-sample.php and start editing. You will be able
+to choose which file to use in the footer of the "ready" page.
+
 ### Flex content fields
 
 To use flex content fields, you can't use the system name of the field. You will need

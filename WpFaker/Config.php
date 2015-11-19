@@ -10,4 +10,40 @@ class Config
     public $post_content;
     public $post_thumbnail;
     public $acf_values;
+    
+    public $config_files = array();
+    public $using;
+    
+    public function get_config_files()
+    {
+        $config_files = glob(__dir__.'/../config-*.php');
+        if(count($config_files) > 1) {
+            foreach($config_files as $file) {
+                $file = explode('/',$file);
+                $file = end($file);
+                $this->config_files[] = str_replace(['config-','.php'], ['',''], $file);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public static function load_config_file()
+    {
+        $using = filter_input(INPUT_GET, 'using');
+        if (empty($using)) {
+            $using = 'sample';
+        }
+        $using_path = __DIR__.'/../config-'.$using.'.php';
+        
+        if(file_exists($using_path)) {
+            require $using_path;
+            $Config = new myConfig();
+            $Config->using = $using;
+            return $Config;
+        } else {
+            die('Error, the specified configuration does not exists.');
+        }        
+    }
 }

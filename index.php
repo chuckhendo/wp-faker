@@ -6,10 +6,9 @@ define('UPLOAD_DIR', $upload_dir['path']);
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/WpFaker/Post.php';
 require __DIR__ . '/WpFaker/Config.php';
-require __DIR__ . '/config-sample.php';
 
 $WpFaker = new Post();
-$Config = new myConfig();
+$Config = Config::load_config_file();
 
 Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem('templates');
@@ -61,7 +60,7 @@ if (filter_input(INPUT_GET, 'proceed') == 1) {
         'title' => $Config->post_title,
     ];
 
-    $data['footer'] = '<a href="'.$faking_content_url.'?proceed=1" class="btn btn-sm btn-primary">Great, one more time!</a> <small>or</small> <a href="'.$faking_content_url.'?proceed=0" class="btn btn-sm btn-secondary">what\'s my config again?</a>';
+    $data['footer'] = '<a href="'.$faking_content_url.'?proceed=1&using='.$Config->using.'" class="btn btn-sm btn-primary">Great, one more time!</a> <small>or</small> <a href="'.$faking_content_url.'?proceed=0&using='.$Config->using.'" class="btn btn-sm btn-secondary">what\'s my config again?</a>';
     $template = 'go.twig';
     
 } else {
@@ -78,8 +77,12 @@ if (filter_input(INPUT_GET, 'proceed') == 1) {
         $data['config'][] = 'Dummy Acf values example : <pre class="pre-scrollable">'.print_r($Config->acf_values,1).'</pre>';
     }
     
-    $data['footer'] = '<a href="'.$faking_content_url.'?proceed=1" class="btn btn-sm btn-primary">OK, let\'s go!</a>';
+    $data['footer'] = '<a href="'.$faking_content_url.'?proceed=1&using='.$Config->using.'" class="btn btn-sm btn-primary">OK, let\'s go!</a>';
     $template = 'ready.twig';
+}
+
+if($Config->get_config_files()) {
+    $data['config_files'] = $Config->config_files;
 }
 
 echo $twig->render($template,$data);

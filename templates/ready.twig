@@ -11,4 +11,12 @@
 
 {% block footer %}
     {{ footer|raw }}
+    {% if config_files %}
+        <small>
+            or choose another configuration of yours : 
+            {% for file in config_files %}
+                <a href="index.php?using={{ file }}">{{ file }}</a>
+            {% endfor %}
+        </small>
+    {% endif %}
 {% endblock %}
