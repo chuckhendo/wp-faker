@@ -19,40 +19,40 @@ $faking_content_url = basename($_SERVER['PHP_SELF']);
 if (filter_input(INPUT_GET, 'proceed') == 1) {
     include(ABSPATH.'wp-admin/includes/image.php'); 
     
-    if(!username_exists('WpFakerUser')) {
+    if (!username_exists('WpFakerUser')) {
         $WpFaker->createUser();
     } else {
-        $user = get_user_by('login','WpFakerUser');
+        $user = get_user_by('login', 'WpFakerUser');
         $WpFaker->user_id = $user->data->ID;
     }
 
     /**
-     *  Generating content !
+     * Generating content !
      */
     $WpFaker->createPost($Config);
 
     /**
-     *  Generating post thumbnail !
+     * Generating post thumbnail !
      */
-    if($Config->post_thumbnail) {
+    if ($Config->post_thumbnail) {
         $attachement_id = $WpFaker->saveImage($Config->post_thumbnail);
         update_post_meta( $WpFaker->post_id, '_thumbnail_id', $attachement_id ); // Associating attachement to the post
     }
     
     /**
-     *  Generating Acf values !
+     * Generating Acf values !
      */
-    if(isset($Config->acf_values)) {
+    if (isset($Config->acf_values)) {
         $WpFaker->saveAcf($Config->acf_values);
     }
     
     /**
-     *  Add terms
+     * Add terms
      */
     $WpFaker->saveTerms($Config);        
     
     /**
-     *  Prepare values for the template
+     * Prepare values for the template
      */
     $data['post'] = [
         'id' => $WpFaker->post_id,
@@ -65,7 +65,7 @@ if (filter_input(INPUT_GET, 'proceed') == 1) {
     
 } else {
     /**
-     *  Asking to confirm config
+     * Asking to confirm config
      */
     $data['config'] = [
         'Post type : '.$Config->post_type,
@@ -81,8 +81,8 @@ if (filter_input(INPUT_GET, 'proceed') == 1) {
     $template = 'ready.twig';
 }
 
-if($Config->get_config_files()) {
+if ($Config->get_config_files()) {
     $data['config_files'] = $Config->config_files;
 }
 
-echo $twig->render($template,$data);
+echo $twig->render($template, $data);

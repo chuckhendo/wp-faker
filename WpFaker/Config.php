@@ -14,12 +14,17 @@ class Config
     public $config_files = array();
     public $using;
     
+    /**
+     * Get all the available configuration files.
+     * 
+     * @return boolean
+     */
     public function get_config_files()
     {
         $config_files = glob(__dir__.'/../config-*.php');
-        if(count($config_files) > 1) {
-            foreach($config_files as $file) {
-                $file = explode('/',$file);
+        if (count($config_files) > 1) {
+            foreach ($config_files as $file) {
+                $file = explode('/', $file);
                 $file = end($file);
                 $this->config_files[] = str_replace(['config-','.php'], ['',''], $file);
             }
@@ -29,6 +34,11 @@ class Config
         }
     }
     
+    /**
+     * Load the configuration file.
+     * 
+     * @return \myConfig
+     */
     public static function load_config_file()
     {
         $using = filter_input(INPUT_GET, 'using');
