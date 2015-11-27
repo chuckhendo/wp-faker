@@ -1,5 +1,17 @@
 <?php
 require __DIR__. '/../wp-load.php';
+
+/**
+ * Check that the user can see this
+ */
+if (!is_user_logged_in()) {
+    auth_redirect();
+}
+
+if (!is_super_admin()) {
+    die('You do not have access to this tool.');
+}
+
 $upload_dir = wp_upload_dir();
 define('UPLOAD_DIR', $upload_dir['path']);
 
