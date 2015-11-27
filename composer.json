@@ -1,5 +1,5 @@
 {
-    "name": "alan/www",
+    "name": "alanpilloud/wp-faker",
     "require": {
         "fzaninotto/faker": "^1.5",
         "twig/twig": "~1.0"
@@ -7,7 +7,7 @@
     "authors": [
         {
             "name": "alanpilloud",
-            "email": "alanp@rc2.ch"
+            "email": "alanpilloud@gmail.com"
         }
     ]
 }
