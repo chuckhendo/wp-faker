@@ -2,12 +2,15 @@
 require __DIR__. '/../wp-load.php';
 
 /**
- * Check that the user can see this
+ * If the user is not logged in, redirect to login page
  */
 if (!is_user_logged_in()) {
     auth_redirect();
 }
 
+/**
+ * If the user is not an admin, then end the program
+ */
 if (!is_super_admin()) {
     die('You do not have access to this tool.');
 }
