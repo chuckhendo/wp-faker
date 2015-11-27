@@ -25,15 +25,15 @@ require __DIR__ . '/WpFaker/Config.php';
 $WpFaker = new Post();
 $Config = Config::load_config_file();
 
-Twig_Autoloader::register();
-$loader = new Twig_Loader_Filesystem('templates');
-$twig = new Twig_Environment($loader);
 
 $faking_content_url = basename($_SERVER['PHP_SELF']);
 
 if (filter_input(INPUT_GET, 'proceed') == 1) {
     include(ABSPATH.'wp-admin/includes/image.php'); 
     
+    /**
+     * Create or use the WpFakerUser id
+     */
     if (!username_exists('WpFakerUser')) {
         $WpFaker->createUser();
     } else {
@@ -92,12 +92,21 @@ if (filter_input(INPUT_GET, 'proceed') == 1) {
         $data['config'][] = 'Dummy Acf values example : <pre class="pre-scrollable">'.print_r($Config->acf_values,1).'</pre>';
     }
     
+    /**
+     *  If there are more than one configuration file, output them
+     */
+    if ($Config->get_config_files()) {
+        $data['config_files'] = $Config->config_files;
+    }
+    
     $data['footer'] = '<a href="'.$faking_content_url.'?proceed=1&using='.$Config->using.'" class="btn btn-sm btn-primary">OK, let\'s go!</a>';
     $template = 'ready.twig';
 }
 
-if ($Config->get_config_files()) {
-    $data['config_files'] = $Config->config_files;
-}
-
+/**
+ *  Output the HTML using twig
+ */
+Twig_Autoloader::register();
+$loader = new Twig_Loader_Filesystem('templates');
+$twig = new Twig_Environment($loader);
 echo $twig->render($template, $data);
