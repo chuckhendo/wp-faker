@@ -7,15 +7,15 @@ class Post
      *  Generated post id
      */
     public $post_id = null;
-    
+
     /**
      *  WpFakerUser user id
      */
     public $user_id = null;
-    
+
     /**
      * Save an image attachement in the database and in the filesystem.
-     * 
+     *
      * @param string $filename
      * @return int
      */
@@ -29,20 +29,20 @@ class Post
             'post_status' => 'inherit',
             'post_author' => $this->user_id
         );
-        
+
         $attachement_id = wp_insert_attachment($attachment, UPLOAD_DIR.'/'.$filename);
-        
+
         $imagenew = get_post($attachement_id);
         $fullsizepath = get_attached_file($imagenew->ID);
         $attach_data = wp_generate_attachment_metadata($attachement_id, $fullsizepath);
         wp_update_attachment_metadata($attachement_id, $attach_data);
-        
+
         return $attachement_id;
     }
-    
+
     /**
      * Update Acf values.
-     * 
+     *
      * @param array $values
      */
     public function saveAcf($values)
@@ -51,26 +51,41 @@ class Post
             update_field($k, $v, $this->post_id);
         }
     }
-    
+
+
+    /**
+     * Update Acf image values.
+     *
+     * @param array $values
+     */
+    public function saveAcfImages($values)
+    {
+        foreach($values as $k => $v) {
+          // var_dump($v);
+          $attachment_id = $this->saveImage($v);
+          update_field($k, $attachment_id, $this->post_id);
+        }
+    }
+
     /**
      * Create the use WpFakerUser
-     * 
-     * This is used to assign the generated contents and let the developer 
+     *
+     * This is used to assign the generated contents and let the developer
      * delete easily all the dummy content.
      */
     public function createUser()
     {
         $password = wp_generate_password(36, true); //Generate a strong password
         $this->user_id = wp_create_user('WpFakerUser', $password, 'WpFakerUser@WpFaker.Fake');
-        
+
         $user = get_user_by('id', $this->user_id);
         $user->remove_role('subscriber');
         $user->add_role('administrator');
     }
-    
+
     /**
      * Create the new post according to the Config in use.
-     * 
+     *
      * @param object $Config
      */
     public function createPost($Config)
@@ -86,10 +101,10 @@ class Post
             'post_type' => $Config->post_type
     	));
     }
-    
+
     /**
      * Assign the post to one term in each existing taxonomy
-     * 
+     *
      * @param object $Config
      */
     public function saveTerms($Config)

@@ -1,5 +1,6 @@
 <?php
-require __DIR__. '/../wp-load.php';
+
+require __DIR__. '/../wp/wp-load.php';
 $upload_dir = wp_upload_dir();
 define('UPLOAD_DIR', $upload_dir['path']);
 
@@ -17,8 +18,8 @@ $twig = new Twig_Environment($loader);
 $faking_content_url = basename($_SERVER['PHP_SELF']);
 
 if (filter_input(INPUT_GET, 'proceed') == 1) {
-    include(ABSPATH.'wp-admin/includes/image.php'); 
-    
+    include(ABSPATH.'wp-admin/includes/image.php');
+
     if (!username_exists('WpFakerUser')) {
         $WpFaker->createUser();
     } else {
@@ -38,19 +39,26 @@ if (filter_input(INPUT_GET, 'proceed') == 1) {
         $attachement_id = $WpFaker->saveImage($Config->post_thumbnail);
         update_post_meta( $WpFaker->post_id, '_thumbnail_id', $attachement_id ); // Associating attachement to the post
     }
-    
+
     /**
      * Generating Acf values !
      */
     if (isset($Config->acf_values)) {
         $WpFaker->saveAcf($Config->acf_values);
     }
-    
+
+    /**
+     * Generating Acf images !
+     */
+    if (isset($Config->acf_images)) {
+        $WpFaker->saveAcfImages($Config->acf_images);
+    }
+
     /**
      * Add terms
      */
-    $WpFaker->saveTerms($Config);        
-    
+    $WpFaker->saveTerms($Config);
+
     /**
      * Prepare values for the template
      */
@@ -62,7 +70,7 @@ if (filter_input(INPUT_GET, 'proceed') == 1) {
 
     $data['footer'] = '<a href="'.$faking_content_url.'?proceed=1&using='.$Config->using.'" class="btn btn-sm btn-primary">Great, one more time!</a> <small>or</small> <a href="'.$faking_content_url.'?proceed=0&using='.$Config->using.'" class="btn btn-sm btn-secondary">what\'s my config again?</a>';
     $template = 'go.twig';
-    
+
 } else {
     /**
      * Asking to confirm config
@@ -72,11 +80,15 @@ if (filter_input(INPUT_GET, 'proceed') == 1) {
         'Post title : '.$Config->post_title,
         'Post content : '.$Config->post_content
     ];
-    
+
     if (isset($Config->acf_values)) {
         $data['config'][] = 'Dummy Acf values example : <pre class="pre-scrollable">'.print_r($Config->acf_values,1).'</pre>';
     }
-    
+
+    if (isset($Config->acf_images)) {
+        $data['config'][] = 'Dummy Acf images example : <pre class="pre-scrollable">'.print_r($Config->acf_images,1).'</pre>';
+    }
+
     $data['footer'] = '<a href="'.$faking_content_url.'?proceed=1&using='.$Config->using.'" class="btn btn-sm btn-primary">OK, let\'s go!</a>';
     $template = 'ready.twig';
 }
